@@ -61,6 +61,29 @@ Or press `F5` in VS Code to launch an Extension Development Host.
 
 > ⚠️ **Install on the LOCAL VS Code**, not "Install in SSH". Because it's a `ui` extension it must run on your machine to reach your clipboard; VS Code enforces this automatically, but if you have a "remote extensions" workflow, make sure it lands locally.
 
+## Releasing
+
+CI (`.github/workflows/build.yml`) compiles and packages a `.vsix` on every push
+and PR, uploading it as a build artifact.
+
+Publishing (`.github/workflows/publish.yml`) runs when a GitHub Release is
+**published as the latest** (non-draft, non-prerelease). It packages the `.vsix`,
+publishes to both registries, and attaches the `.vsix` to the release.
+
+To cut a release:
+
+1. Bump `version` in `package.json` and commit.
+2. Create a GitHub Release with tag `v<version>` (e.g. `v0.3.0`) — the tag must
+   match `package.json` or the workflow fails fast.
+
+Configure these as **repository Actions secrets** (each registry is skipped if its
+secret is absent, so you can enable one at a time):
+
+| Secret | Registry | Where to get it |
+|---|---|---|
+| `VSCE_PAT` | VS Code Marketplace | Azure DevOps PAT, scope **Marketplace → Manage** |
+| `OVSX_PAT` | Open VSX | Access token from open-vsx.org user settings |
+
 ## Credits & prior art
 
 This extension stands on other people's work:
