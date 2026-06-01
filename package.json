@@ -1,0 +1,103 @@
+{
+  "name": "claude-image-paste-bracketed",
+  "displayName": "Claude Code: Image Paste (bracketed)",
+  "description": "Paste clipboard images into a Claude Code terminal over Remote-SSH so Claude renders them inline as [Image N] — via bracketed-paste injection, the way cmux does it.",
+  "version": "0.2.0",
+  "publisher": "benjaminwood",
+  "author": "Benjamin Wood",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benjaminwood/vscode-claude-image-paste.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benjaminwood/vscode-claude-image-paste/issues"
+  },
+  "homepage": "https://github.com/benjaminwood/vscode-claude-image-paste#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "claude",
+    "claude code",
+    "image",
+    "paste",
+    "ssh",
+    "remote",
+    "terminal",
+    "bracketed paste"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudeImagePaste.pasteToTerminal",
+        "title": "Claude: Paste Clipboard Image to Terminal"
+      },
+      {
+        "command": "claudeImagePaste.smartPaste",
+        "title": "Claude: Smart Paste (image or text) to Terminal"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "claudeImagePaste.smartPaste",
+        "key": "ctrl+v",
+        "mac": "cmd+v",
+        "when": "terminalFocus && !accessibilityModeEnabled"
+      },
+      {
+        "command": "claudeImagePaste.pasteToTerminal",
+        "key": "ctrl+alt+v",
+        "mac": "cmd+alt+v",
+        "when": "terminalFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Image Paste",
+      "properties": {
+        "claudeImagePaste.imageDirectory": {
+          "type": "string",
+          "default": ".claude-images",
+          "description": "Workspace-relative directory where pasted images are written (created on demand, on the remote when using Remote-SSH)."
+        },
+        "claudeImagePaste.insertionMode": {
+          "type": "string",
+          "enum": [
+            "bracketedPaste",
+            "plain"
+          ],
+          "enumDescriptions": [
+            "Inject the path wrapped in bracketed-paste markers (ESC[200~ … ESC[201~) so Claude Code's paste handler fires and renders [Image N]. Recommended.",
+            "Insert the bare path with terminal.sendText (legacy behaviour — Claude usually will NOT render it inline). For debugging only."
+          ],
+          "default": "bracketedPaste",
+          "description": "How the image path is delivered to the terminal."
+        },
+        "claudeImagePaste.cleanupAfterDays": {
+          "type": "number",
+          "default": 7,
+          "description": "Best-effort delete of previously pasted images older than this many days (0 = never delete)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile",
+    "package": "npx --yes @vscode/vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.4.0"
+  }
+}
