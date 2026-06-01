@@ -1,0 +1,28 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2233"/>
+      <stop offset="1" stop-color="#0d1018"/>
+    </linearGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="128" height="128" rx="26" fill="url(#bg)"/>
+
+  <!-- terminal window -->
+  <rect x="16" y="22" width="96" height="84" rx="11" fill="#10151f" stroke="#2c3a4f" stroke-width="2"/>
+
+  <!-- title bar dots -->
+  <circle cx="28" cy="33" r="3" fill="#ff5f56"/>
+  <circle cx="39" cy="33" r="3" fill="#ffbd2e"/>
+  <circle cx="50" cy="33" r="3" fill="#27c93f"/>
+
+  <!-- image thumbnail (the pasted image) -->
+  <rect x="30" y="46" width="68" height="46" rx="6" fill="#0a0f17" stroke="#38bdf8" stroke-width="2.5"/>
+  <circle cx="46" cy="60" r="5.5" fill="#fbbf24"/>
+  <path d="M32 90 L52 72 L66 84 L80 66 L96 90 Z" fill="#34d399"/>
+
+  <!-- bracketed-paste markers framing the image -->
+  <path d="M28 44 L23 44 L23 94 L28 94" fill="none" stroke="#7dd3fc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M100 44 L105 44 L105 94 L100 94" fill="none" stroke="#7dd3fc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
