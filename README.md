@@ -93,6 +93,10 @@ This extension stands on other people's work:
 - The detection details (Claude Code's `/\.(png|jpe?g|gif|webp)$/i` paste-path matcher) come from inspecting the Claude Code CLI, and the `sendSequence` bracketed-paste technique was demonstrated for Claude Code by [PabloLION's Shift+Enter gist](https://gist.github.com/PabloLION/f8e81d474b39d500d31307d3195e9ba3).
 - Relevant VS Code limitation: `terminal.sendText` does not bracketed-paste ([microsoft/vscode#159153](https://github.com/microsoft/vscode/issues/159153), [#187480](https://github.com/microsoft/vscode/issues/187480)).
 
+Reused code and its license notices are recorded in
+[`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) (Claudeboard's MIT notice for
+the adapted clipboard reader; cmux contributes approach only, no code).
+
 Not affiliated with Anthropic, cmux, or the above projects.
 
 ## License

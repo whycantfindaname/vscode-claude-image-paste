@@ -1,3 +1,7 @@
+// The cross-platform clipboard-image reading below is adapted from Claudeboard
+// by Dariusz Kuśnierek (https://github.com/dkodr/claudeboard), used under the
+// MIT License. See THIRD_PARTY_NOTICES.md for the full notice.
+
 import { exec } from "child_process";
 import * as fs from "fs";
 import * as os from "os";
