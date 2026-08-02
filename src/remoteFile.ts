@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { shortToken } from "./clipboard";
+import { configuredRemoteImageDirectory } from "./imagePath";
 
 const FILENAME_PREFIX = "clipboard-";
 
@@ -18,9 +19,17 @@ function imageDirUri(): vscode.Uri {
   if (!folder) {
     throw new Error("Open a folder/workspace first — images are written inside the workspace.");
   }
-  const rel = vscode.workspace
-    .getConfiguration("claudeImagePaste")
-    .get<string>("imageDirectory", ".claude-images");
+  const config = vscode.workspace.getConfiguration("claudeImagePaste");
+  if (folder.uri.scheme === "vscode-remote") {
+    const configuredRemotePath = configuredRemoteImageDirectory(
+      config.get<string>("remoteImageDirectory", "")
+    );
+    if (configuredRemotePath) {
+      return folder.uri.with({ path: configuredRemotePath });
+    }
+  }
+
+  const rel = config.get<string>("imageDirectory", ".claude-images");
   return vscode.Uri.joinPath(folder.uri, ...rel.split("/").filter(Boolean));
 }
 

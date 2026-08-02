@@ -1,19 +1,19 @@
 {
-  "name": "claude-image-paste-bracketed",
-  "displayName": "Claude Code: Image Paste (bracketed)",
-  "description": "Paste clipboard images into a Claude Code terminal over Remote-SSH so Claude renders them inline as [Image N] — via bracketed-paste injection, the way cmux does it.",
+  "name": "claude-image-paste-bracketed-remote-path",
+  "displayName": "Claude Code: Image Paste (remote path)",
+  "description": "Paste clipboard images into a Claude Code terminal over Remote-SSH using a configurable remote absolute path.",
   "version": "0.2.0",
-  "publisher": "benjaminwood",
-  "author": "Benjamin Wood",
+  "publisher": "wenjieliao-local",
+  "author": "Benjamin Wood; remote-path adaptation for Wenjie Liao",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/benjaminwood/vscode-claude-image-paste.git"
+    "url": "https://github.com/whycantfindaname/vscode-claude-image-paste.git"
   },
   "bugs": {
-    "url": "https://github.com/benjaminwood/vscode-claude-image-paste/issues"
+    "url": "https://github.com/whycantfindaname/vscode-claude-image-paste/issues"
   },
-  "homepage": "https://github.com/benjaminwood/vscode-claude-image-paste#readme",
+  "homepage": "https://github.com/whycantfindaname/vscode-claude-image-paste#readme",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -71,7 +71,12 @@
         "claudeImagePaste.imageDirectory": {
           "type": "string",
           "default": ".claude-images",
-          "description": "Workspace-relative directory where pasted images are written (created on demand, on the remote when using Remote-SSH)."
+          "description": "Workspace-relative directory used locally and as the Remote-SSH fallback when remoteImageDirectory is empty."
+        },
+        "claudeImagePaste.remoteImageDirectory": {
+          "type": "string",
+          "default": "",
+          "description": "Optional absolute POSIX directory for Remote-SSH workspaces. Leave empty to use imageDirectory relative to the workspace."
         },
         "claudeImagePaste.insertionMode": {
           "type": "string",
@@ -96,13 +101,15 @@
   },
   "scripts": {
     "compile": "tsc -p ./",
+    "test": "npm run compile && node --test test/*.test.js",
     "watch": "tsc -watch -p ./",
     "vscode:prepublish": "npm run compile",
-    "package": "npx --yes @vscode/vsce package --no-dependencies"
+    "package": "vsce package --no-dependencies --out dist/claude-image-paste-remote-path-0.2.0.vsix"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "3.9.2",
     "typescript": "^5.4.0"
   }
 }

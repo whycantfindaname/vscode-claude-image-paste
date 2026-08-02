@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { readClipboardImage } from "./clipboard";
 import { insertImagePath } from "./insert";
+import { terminalImagePath } from "./imagePath";
 import { writeImageToWorkspace, cleanupOldImages } from "./remoteFile";
 
 const TERMINAL_PASTE = "workbench.action.terminal.paste";
@@ -93,7 +94,7 @@ async function performImagePaste(opts: { announceNoImage: boolean }): Promise<Im
       }
 
       try {
-        await insertImagePath(uri.fsPath, mode);
+        await insertImagePath(terminalImagePath(uri.scheme, uri.path, uri.fsPath), mode);
       } catch (err) {
         vscode.window.showErrorMessage(`Claude Image Paste: ${message(err)}`);
         return "error";

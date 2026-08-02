@@ -1,6 +1,11 @@
-# Claude Code: Image Paste (bracketed)
+# Claude Code: Image Paste (remote path)
 
 Paste a clipboard image into a **Claude Code terminal running over Remote-SSH** and have Claude render it inline as `[Image N]` — the same end result as [cmux](https://cmux.com), but inside VS Code.
+
+This local adaptation is based on upstream commit
+`7e526b9a172447fc38e993d8af64c3a1f5ddd927`. It adds an optional configurable
+Remote-SSH absolute image directory and sends the remote POSIX path to Claude
+Code even though the UI extension itself runs on Windows.
 
 Every other VS-Code image-paste extension stops one step short: they save the image and insert the file path with `terminal.sendText()`. Claude then shows nothing, because `sendText` delivers the path as *typed* input. This extension delivers it as a **bracketed paste**, which is the trigger Claude Code actually keys off.
 
@@ -18,7 +23,7 @@ Claude Code's input layer only converts a pasted path into an image attachment w
 
 1. Runs as a **UI (local) extension** (`"extensionKind": ["ui"]`), so it can read your real clipboard even when the workspace is remote.
 2. Reads the clipboard image with native OS tools — macOS AppleScript (`«class PNGf»`, TIFF→`sips` fallback), Linux `xclip`/`wl-paste`, Windows PowerShell. No `pngpaste` or other dependencies.
-3. Writes it to `<workspace>/.claude-images/clipboard-<timestamp>-<rand>.png`. Over Remote-SSH, `workspace.fs` ships the bytes to the remote on VS Code's own connection — no scp, no daemon.
+3. Writes it to `<workspace>/.claude-images/clipboard-<timestamp>-<rand>.png` by default. A Remote-SSH workspace can instead use an explicitly configured absolute POSIX directory. `workspace.fs` ships remote bytes on VS Code's own connection — no scp, no daemon.
 4. Injects the file's absolute remote path into the active terminal as a bracketed paste.
 
 ## Usage
@@ -44,22 +49,28 @@ unchanged. `Cmd+Alt+V` (`Ctrl+Alt+V`) always forces image mode, and
 
 | Setting | Default | Description |
 |---|---|---|
-| `claudeImagePaste.imageDirectory` | `.claude-images` | Workspace-relative dir for pasted images. |
+| `claudeImagePaste.imageDirectory` | `.claude-images` | Workspace-relative directory for local workspaces. |
+| `claudeImagePaste.remoteImageDirectory` | empty | Optional absolute POSIX directory for Remote-SSH workspaces; empty uses `imageDirectory` relative to the workspace. |
 | `claudeImagePaste.insertionMode` | `bracketedPaste` | `bracketedPaste` (recommended) or `plain` (legacy `sendText`, for A/B debugging). |
 | `claudeImagePaste.cleanupAfterDays` | `7` | Best-effort delete of older pasted images (0 = never). |
 
 ## Build / install from source
 
 ```bash
-npm install
+npm ci
 npm run compile          # tsc -> out/
+npm test
 npm run package          # produces a .vsix via @vscode/vsce
-code --install-extension claude-image-paste-bracketed-0.1.0.vsix
+code --install-extension dist/claude-image-paste-remote-path-0.2.0.vsix
 ```
 
 Or press `F5` in VS Code to launch an Extension Development Host.
 
 > ⚠️ **Install on the LOCAL VS Code**, not "Install in SSH". Because it's a `ui` extension it must run on your machine to reach your clipboard; VS Code enforces this automatically, but if you have a "remote extensions" workflow, make sure it lands locally.
+>
+> This build uses a distinct extension ID. Disable or uninstall the upstream
+> `benjaminwood.claude-image-paste-bracketed` build before enabling this one,
+> because both contribute the same commands and terminal shortcuts.
 
 ## Releasing
 

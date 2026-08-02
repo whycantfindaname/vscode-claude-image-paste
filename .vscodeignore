@@ -1,6 +1,8 @@
 .vscode/**
 .github/**
 src/**
+test/**
+dist/**
 **/*.ts
 **/*.map
 tsconfig.json
