@@ -4,7 +4,7 @@
 发布配置前，先用它确认三个问题：文件属于源码还是生成物，图片路径在哪个
 运行时边界之间传递，以及 Infra、VS Code 和下游消费者的标识分别指什么。
 
-本文只描述 `local/remote-absolute-path` checkout 的仓库结构、Remote-SSH
+本文只描述 `lwj_dev` checkout 的仓库结构、Remote-SSH
 绝对路径实现和维护边界。仓库事实以 `package.json`、`src/`、`test/`、
 `tsconfig.json`、`.gitignore`、`.vscodeignore`、CI workflow、Git tracked
 tree 和当前分支差异为准；Infra 归属和消费者关系以 Infra companion
@@ -29,7 +29,7 @@ manifest 为准。
 
 ## 2. 来源、分支与同步边界
 
-- 本 checkout 的维护分支是 `local/remote-absolute-path`；branch、remote 和同步
+- 本 checkout 的维护分支是 `lwj_dev`；branch、remote 和同步
   状态属于 Git repository state，需要用 Git 回读，并与运行态 `live` 分开报告。
 - fork 是 `whycantfindaname/vscode-claude-image-paste`，Git remote 名为
   `fork`；上游是 `benjaminwood/vscode-claude-image-paste`，Git remote 名为
