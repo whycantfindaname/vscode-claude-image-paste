@@ -19,3 +19,15 @@ If you're using Codex or another agent-capable tool, additional project-scoped h
 Managed by Trellis. Edits outside this block are preserved; edits inside may be overwritten by a future `trellis update`.
 
 <!-- TRELLIS:END -->
+
+## Managed Repository Context
+
+- Registry ID: `cursor-image-paste` (Agent Infra companion manifest `manifests/companion-repositories.json`)
+- Managed branch: `lwj_dev` (upstream mirror baseline: `main`)
+- Repository convergence authority: Agent Infra registry and sync contract (fetch, classify, safe fast-forward)
+- Owner workflow + product/runtime authority: this repository's own source, `README.md` and `STRUCTURE.md`
+- Workflow status: `registered` (`project_workflow=not_migrated`; no managed-project contract yet)
+- Read order: `AGENTS.md` -> `README.md` (usage / build and install from source / releasing) -> `STRUCTURE.md` (structure and maintenance boundaries)
+- Update triggers: managed branch or remote change; build/release chain change; platform activation change; service/config/secret ownership change; new stable error class; a completed reusable major update flow
+- Registered clause: the next substantive update task hitting a trigger must either promote the verified workflow into a managed-project contract (`.agent-infra/managed-project.json`) plus human guide and current error catalog, or record a concrete no-op reason
+- Do not invent workflow: until migration, follow only the docs above; do not guess build, release, or activation steps
