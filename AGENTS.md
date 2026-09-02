@@ -19,3 +19,9 @@ If you're using Codex or another agent-capable tool, additional project-scoped h
 Managed by Trellis. Edits outside this block are preserved; edits inside may be overwritten by a future `trellis update`.
 
 <!-- TRELLIS:END -->
+
+## Managed repository workflow
+
+- Delivery status: `delivery_pending`; editor integration is platform-specific and a shared artifact handoff is not yet modeled.
+- Read order: `AGENTS.md` -> project documentation.
+- No project-local delivery contract is active. Add a v2 contract only after its shared handoff is modeled and the Agent Infra registry is changed to `delivery_contract`.
