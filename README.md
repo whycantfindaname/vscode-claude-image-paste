@@ -33,6 +33,16 @@ Claude Code's input layer only converts a pasted path into an image attachment w
 3. Focus the terminal and press **`Cmd+V`** (macOS) / **`Ctrl+V`** (Windows/Linux).
 4. Claude shows `[Image N]` in its prompt. Type your message and hit Enter.
 
+### Qoder CLI (qodercn)
+
+Qoder's image detector keys on `@<path>` rather than a bare path, so set
+**`claudeImagePaste.receiver: "qoder"`** in Settings. The payload then becomes
+`@/abs/path.png` inside the same bracketed paste, which Qoder's input renders
+as an image pill and attaches as `[Image #N]` on submit. The image file must
+exist on the machine Qoder runs on — over Remote-SSH the extension already
+writes it into the remote workspace. `claude` (default) keeps the bare-path
+payload for Claude Code.
+
 `Cmd+V` is a smart dispatcher: when the clipboard holds **text** it hands straight
 to the built-in terminal paste (in-process check, no lag); only when there's **no
 text but an image** does it run the image flow. So normal text pasting is

@@ -3,3 +3,4 @@ out/
 *.vsix
 dist/
 .cursor/
+.trellis/tasks/09-14-trellis-beta4-harness-upgrade/

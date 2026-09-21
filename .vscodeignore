@@ -10,3 +10,12 @@ tsconfig.json
 icon.svg
 node_modules/**
 !out/**
+.cursor/**
+.agents/**
+.claude/**
+.codex/**
+.trellis/**
+.jason-liao-agent-infra/**
+AGENTS.md
+STRUCTURE.md
+THIRD_PARTY_NOTICES.md

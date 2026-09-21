@@ -91,6 +91,19 @@
           "default": "bracketedPaste",
           "description": "How the image path is delivered to the terminal."
         },
+        "claudeImagePaste.receiver": {
+          "type": "string",
+          "enum": [
+            "claude",
+            "qoder"
+          ],
+          "enumDescriptions": [
+            "Claude Code: expects the payload to be a bare image path.",
+            "Qoder CLI (qodercn): prefixes the path with @ so the input's @path image detection attaches it as [Image #N]."
+          ],
+          "default": "claude",
+          "description": "Which CLI's paste-path detector the payload is formatted for."
+        },
         "claudeImagePaste.cleanupAfterDays": {
           "type": "number",
           "default": 7,

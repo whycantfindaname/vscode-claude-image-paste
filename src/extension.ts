@@ -58,6 +58,7 @@ type ImagePasteResult = "pasted" | "no-image" | "error";
 async function performImagePaste(opts: { announceNoImage: boolean }): Promise<ImagePasteResult> {
   const config = vscode.workspace.getConfiguration("claudeImagePaste");
   const mode = config.get<"bracketedPaste" | "plain">("insertionMode", "bracketedPaste");
+  const receiver = config.get<"claude" | "qoder">("receiver", "claude");
 
   if (!vscode.window.activeTerminal) {
     if (opts.announceNoImage) {
@@ -94,7 +95,7 @@ async function performImagePaste(opts: { announceNoImage: boolean }): Promise<Im
       }
 
       try {
-        await insertImagePath(terminalImagePath(uri.scheme, uri.path, uri.fsPath), mode);
+        await insertImagePath(terminalImagePath(uri.scheme, uri.path, uri.fsPath), mode, receiver);
       } catch (err) {
         vscode.window.showErrorMessage(`Claude Image Paste: ${message(err)}`);
         return "error";

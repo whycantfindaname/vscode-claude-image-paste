@@ -30,7 +30,8 @@ function formatPath(absolutePath: string): string {
  */
 export async function insertImagePath(
   absolutePath: string,
-  mode: "bracketedPaste" | "plain"
+  mode: "bracketedPaste" | "plain",
+  receiver: "claude" | "qoder" = "claude"
 ): Promise<void> {
   const terminal = vscode.window.activeTerminal;
   if (!terminal) {
@@ -38,7 +39,12 @@ export async function insertImagePath(
   }
   terminal.show(false);
 
-  const payload = formatPath(absolutePath);
+  let payload = formatPath(absolutePath);
+  if (receiver === "qoder") {
+    // Qoder's image detector keys on @<path> (optionally @"quoted path");
+    // a bare path is inserted as plain text without attaching the image.
+    payload = `@${payload}`;
+  }
 
   if (mode === "plain") {
     // Legacy behaviour, kept only for A/B debugging.
